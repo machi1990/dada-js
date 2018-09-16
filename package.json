@@ -1,11 +1,11 @@
 {
   "name": "td-js",
-  "version": "1.0.0-aplha",
+  "version": "1.0.0",
   "description": "Test doubles utility library for your testing needs.",
   "main": "index.js",
   "author": "Manyanda Chitimbo <manyanda.chitimbo@gmail.com>",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "scripts": {
     "test": "mocha test/*.test.js",
     "precommit": "pretty-quick --staged",
