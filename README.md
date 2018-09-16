@@ -9,11 +9,11 @@ Test Double for your testing needs in JavaScript inspired by [this blog](https:/
 1. Spies
 2. Dummies
 3. Mocks
+4. Stubs
 
 ## TODO
 
-1. Stubs
-2. Provides real world use cases and examples
+1. Provides real world use cases and examples
 
 #### Authors
 

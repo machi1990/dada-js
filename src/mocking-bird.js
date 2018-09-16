@@ -5,6 +5,7 @@ const isEqual = require("lodash/isEqual"),
   CALLED_THRICE = 3;
 
 /**
+ * @private
  * Test double container
  */
 class MockingBird {

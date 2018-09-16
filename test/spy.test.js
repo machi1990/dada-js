@@ -1,16 +1,16 @@
 const { expect } = require("chai");
+const spy = require("../src/spy");
 
 describe("Spy", () => {
-  const spy = require("../src/spy");
   context(".spy(obj, spyFnName)", () => {
     context("spyFnName property does not exist", () => {
       it("throws an 'undefined function' error", () => {
         // Given
         const obj = {
-          fn: () => {}
+          spy: () => {}
         };
 
-        const spyFnName = "fn_";
+        const spyFnName = "spy_";
 
         // When
         let error = null;
@@ -30,9 +30,9 @@ describe("Spy", () => {
       it("throws an 'property is not a function' error", () => {
         // Given
         const obj = {
-          fn: "not a function"
+          spy: "not a function"
         };
-        const spyFnName = "fn";
+        const spyFnName = "spy";
 
         // When
         let error = null;
@@ -53,14 +53,14 @@ describe("Spy", () => {
         // Given
         const helloWorld = () => "hello world";
         const obj = {
-          fn: helloWorld
+          spy: helloWorld
         };
 
-        const spied = spy(obj, "fn");
+        const spied = spy(obj, "spy");
         const internalImplementationResult = helloWorld();
 
         // When
-        const result = obj.fn();
+        const result = obj.spy();
         // Then
         expect(result).to.eql(internalImplementationResult);
       });
@@ -70,9 +70,9 @@ describe("Spy", () => {
           it("returns zero", () => {
             // Given
             const obj = {
-              fn: () => {}
+              spy: () => {}
             };
-            const spied = spy(obj, "fn");
+            const spied = spy(obj, "spy");
 
             // When
 
@@ -85,12 +85,12 @@ describe("Spy", () => {
           it("returns one", () => {
             // Given
             const obj = {
-              fn: () => {}
+              spy: () => {}
             };
-            const spied = spy(obj, "fn");
+            const spied = spy(obj, "spy");
 
             // When
-            obj.fn();
+            obj.spy();
             // Then
             expect(spied.callCount()).to.equal(1);
           });
@@ -100,13 +100,13 @@ describe("Spy", () => {
           it("returns two", () => {
             // Given
             const obj = {
-              fn: () => {}
+              spy: () => {}
             };
-            const spied = spy(obj, "fn");
+            const spied = spy(obj, "spy");
 
             // When
-            obj.fn();
-            obj.fn();
+            obj.spy();
+            obj.spy();
 
             // Then
             expect(spied.callCount()).to.equal(2);
@@ -117,14 +117,14 @@ describe("Spy", () => {
           it("returns three", () => {
             // Given
             const obj = {
-              fn: () => {}
+              spy: () => {}
             };
-            const spied = spy(obj, "fn");
+            const spied = spy(obj, "spy");
 
             // When
-            obj.fn();
-            obj.fn();
-            obj.fn();
+            obj.spy();
+            obj.spy();
+            obj.spy();
 
             // Then
             expect(spied.callCount()).to.equal(3);
@@ -135,17 +135,17 @@ describe("Spy", () => {
           it("returns the number of time the spy was called", () => {
             // Given
             const obj = {
-              fn: () => {}
+              spy: () => {}
             };
-            const spied = spy(obj, "fn");
+            const spied = spy(obj, "spy");
 
             // When
-            obj.fn();
-            obj.fn();
-            obj.fn();
-            obj.fn();
-            obj.fn();
-            obj.fn();
+            obj.spy();
+            obj.spy();
+            obj.spy();
+            obj.spy();
+            obj.spy();
+            obj.spy();
 
             // Then
             expect(spied.callCount()).to.equal(6);
@@ -158,12 +158,12 @@ describe("Spy", () => {
           it("returns true", () => {
             // Given
             const obj = {
-              fn: () => {}
+              spy: () => {}
             };
-            const spied = spy(obj, "fn");
+            const spied = spy(obj, "spy");
 
             // When
-            obj.fn();
+            obj.spy();
             // Then
             expect(spied.calledOnce()).to.equal(true);
           });
@@ -173,14 +173,14 @@ describe("Spy", () => {
           it("returns false", () => {
             // Given
             const obj = {
-              fn: () => {}
+              spy: () => {}
             };
-            const spied = spy(obj, "fn");
+            const spied = spy(obj, "spy");
 
             // When
-            obj.fn();
-            obj.fn();
-            obj.fn();
+            obj.spy();
+            obj.spy();
+            obj.spy();
 
             // Then
             expect(spied.calledTwice()).to.equal(false);
@@ -193,13 +193,13 @@ describe("Spy", () => {
           it("returns true", () => {
             // Given
             const obj = {
-              fn: () => {}
+              spy: () => {}
             };
-            const spied = spy(obj, "fn");
+            const spied = spy(obj, "spy");
 
             // When
-            obj.fn();
-            obj.fn();
+            obj.spy();
+            obj.spy();
 
             // Then
             expect(spied.calledTwice()).to.equal(true);
@@ -210,14 +210,14 @@ describe("Spy", () => {
           it("returns false", () => {
             // Given
             const obj = {
-              fn: () => {}
+              spy: () => {}
             };
-            const spied = spy(obj, "fn");
+            const spied = spy(obj, "spy");
 
             // When
-            obj.fn();
-            obj.fn();
-            obj.fn();
+            obj.spy();
+            obj.spy();
+            obj.spy();
 
             // Then
             expect(spied.calledTwice()).to.equal(false);
@@ -230,14 +230,14 @@ describe("Spy", () => {
           it("returns true", () => {
             // Given
             const obj = {
-              fn: () => {}
+              spy: () => {}
             };
-            const spied = spy(obj, "fn");
+            const spied = spy(obj, "spy");
 
             // When
-            obj.fn();
-            obj.fn();
-            obj.fn();
+            obj.spy();
+            obj.spy();
+            obj.spy();
 
             // Then
             expect(spied.calledThrice()).to.equal(true);
@@ -248,12 +248,12 @@ describe("Spy", () => {
           it("returns false", () => {
             // Given
             const obj = {
-              fn: () => {}
+              spy: () => {}
             };
-            const spied = spy(obj, "fn");
+            const spied = spy(obj, "spy");
 
             // When
-            obj.fn();
+            obj.spy();
 
             // Then
             expect(spied.calledThrice()).to.equal(false);
@@ -266,9 +266,9 @@ describe("Spy", () => {
           it("returns false", () => {
             // Given
             const obj = {
-              fn: () => {}
+              spy: () => {}
             };
-            const spied = spy(obj, "fn");
+            const spied = spy(obj, "spy");
 
             // When
             const calledWithArgs = spied.calledWith({});
@@ -283,10 +283,10 @@ describe("Spy", () => {
             it("returns false", () => {
               // Given
               const obj = {
-                fn: () => {}
+                spy: () => {}
               };
-              const spied = spy(obj, "fn");
-              obj.fn();
+              const spied = spy(obj, "spy");
+              obj.spy();
 
               // When
               const calledWithArgs = spied.calledWith();
@@ -302,10 +302,10 @@ describe("Spy", () => {
                 it("returns true", () => {
                   // Given
                   const obj = {
-                    fn: () => {}
+                    spy: () => {}
                   };
-                  const spied = spy(obj, "fn");
-                  obj.fn(true);
+                  const spied = spy(obj, "spy");
+                  obj.spy(true);
 
                   // When
                   const calledWithArgs = spied.calledWith(true);
@@ -321,11 +321,11 @@ describe("Spy", () => {
                   it("returns true", () => {
                     // Given
                     const obj = {
-                      fn: () => {}
+                      spy: () => {}
                     };
 
-                    const spied = spy(obj, "fn");
-                    obj.fn({}, true, []);
+                    const spied = spy(obj, "spy");
+                    obj.spy({}, true, []);
 
                     // When
                     const calledWithArgs = spied.calledWith({}, true, []);
@@ -341,10 +341,10 @@ describe("Spy", () => {
               it("returns false", () => {
                 // Given
                 const obj = {
-                  fn: () => {}
+                  spy: () => {}
                 };
-                const spied = spy(obj, "fn");
-                obj.fn(true);
+                const spied = spy(obj, "spy");
+                obj.spy(true);
 
                 // When
                 const calledWithArgs = spied.calledWith(false);
@@ -362,9 +362,9 @@ describe("Spy", () => {
           it("throws a 'test double is yet to be called' error", () => {
             // Given
             const obj = {
-              fn: () => {}
+              spy: () => {}
             };
-            const spied = spy(obj, "fn");
+            const spied = spy(obj, "spy");
 
             // When
             let error = null;
@@ -384,11 +384,11 @@ describe("Spy", () => {
             it("returns args of last call", () => {
               // Given
               const obj = {
-                fn: () => {}
+                spy: () => {}
               };
-              const spied = spy(obj, "fn");
-              obj.fn({ foo: "foo", bar: "bar" });
-              obj.fn({ foo: "foo", bar: "bar" }, ["foo", "bar"]);
+              const spied = spy(obj, "spy");
+              obj.spy({ foo: "foo", bar: "bar" });
+              obj.spy({ foo: "foo", bar: "bar" }, ["foo", "bar"]);
 
               // When
               const args = spied.args();
@@ -405,11 +405,11 @@ describe("Spy", () => {
                 it("throws a 'count not valid' error", () => {
                   // Given
                   const obj = {
-                    fn: () => {}
+                    spy: () => {}
                   };
-                  const spied = spy(obj, "fn");
-                  obj.fn();
-                  obj.fn();
+                  const spied = spy(obj, "spy");
+                  obj.spy();
+                  obj.spy();
 
                   // When
                   let error = null;
@@ -429,10 +429,10 @@ describe("Spy", () => {
               it("returns args of the call represented by the count", () => {
                 // Given
                 const obj = {
-                  fn: () => {}
+                  spy: () => {}
                 };
-                const spied = spy(obj, "fn");
-                obj.fn({ foo: "foo", bar: "bar" });
+                const spied = spy(obj, "spy");
+                obj.spy({ foo: "foo", bar: "bar" });
 
                 // When
                 const args = spied.args(1);
@@ -450,9 +450,9 @@ describe("Spy", () => {
           it("throws a 'test double is yet to be called' error", () => {
             // Given
             const obj = {
-              fn: () => {}
+              spy: () => {}
             };
-            const spied = spy(obj, "fn");
+            const spied = spy(obj, "spy");
 
             // When
             let error = null;
@@ -472,11 +472,11 @@ describe("Spy", () => {
             it("throws a 'count not valid' error", () => {
               // Given
               const obj = {
-                fn: () => {}
+                spy: () => {}
               };
-              const spied = spy(obj, "fn");
-              obj.fn();
-              obj.fn();
+              const spied = spy(obj, "spy");
+              obj.spy();
+              obj.spy();
 
               // When
               let error = null;
@@ -494,10 +494,10 @@ describe("Spy", () => {
           it("returns an object represting a given call count", () => {
             // Given
             const obj = {
-              fn: () => {}
+              spy: () => {}
             };
-            const spied = spy(obj, "fn");
-            obj.fn(["foo"]);
+            const spied = spy(obj, "spy");
+            obj.spy(["foo"]);
 
             // When
             const { args, calledWith } = spied.inspect(1);
@@ -511,11 +511,11 @@ describe("Spy", () => {
             it("returns args of the first call", () => {
               // Given
               const obj = {
-                fn: () => {}
+                spy: () => {}
               };
-              const spied = spy(obj, "fn");
-              obj.fn(["foo"]);
-              obj.fn(["bar"]);
+              const spied = spy(obj, "spy");
+              obj.spy(["foo"]);
+              obj.spy(["bar"]);
 
               // When
               const { args } = spied.inspect(1);
@@ -528,11 +528,11 @@ describe("Spy", () => {
               it("returns true during invocation of calledWith with good arguments for first call", () => {
                 // Given
                 const obj = {
-                  fn: () => {}
+                  spy: () => {}
                 };
-                const spied = spy(obj, "fn");
-                obj.fn(["foo"]);
-                obj.fn(["bar"]);
+                const spied = spy(obj, "spy");
+                obj.spy(["foo"]);
+                obj.spy(["bar"]);
 
                 // When
                 const calledWithArgs = spied.inspect(1).calledWith(["foo"]);
@@ -544,11 +544,11 @@ describe("Spy", () => {
               it("returns false during invocation of calledWith with wrong arguments for the given call the first call", () => {
                 // Given
                 const obj = {
-                  fn: () => {}
+                  spy: () => {}
                 };
-                const spied = spy(obj, "fn");
-                obj.fn(["foo"]);
-                obj.fn(["bar"]);
+                const spied = spy(obj, "spy");
+                obj.spy(["foo"]);
+                obj.spy(["bar"]);
 
                 // When
                 const calledWithArgs = spied.inspect(1).calledWith(["foo "]);
@@ -563,12 +563,12 @@ describe("Spy", () => {
             it("returns args of the second call", () => {
               // Given
               const obj = {
-                fn: () => {}
+                spy: () => {}
               };
 
-              const spied = spy(obj, "fn");
-              obj.fn(["foo"]);
-              obj.fn(["bar"]);
+              const spied = spy(obj, "spy");
+              obj.spy(["foo"]);
+              obj.spy(["bar"]);
 
               // When
               const { args } = spied.inspect(2);
@@ -581,11 +581,11 @@ describe("Spy", () => {
               it("returns true during invocation of calledWith with good arguments for the second call", () => {
                 // Given
                 const obj = {
-                  fn: () => {}
+                  spy: () => {}
                 };
-                const spied = spy(obj, "fn");
-                obj.fn(["foo"]);
-                obj.fn(["bar"]);
+                const spied = spy(obj, "spy");
+                obj.spy(["foo"]);
+                obj.spy(["bar"]);
 
                 // When
                 const calledWithArgs = spied.inspect(2).calledWith(["bar"]);
@@ -597,12 +597,12 @@ describe("Spy", () => {
               it("returns false during invocation of calledWith with wrong arguments for the given call the first call", () => {
                 // Given
                 const obj = {
-                  fn: () => {}
+                  spy: () => {}
                 };
 
-                const spied = spy(obj, "fn");
-                obj.fn(["foo"]);
-                obj.fn(["bar"]);
+                const spied = spy(obj, "spy");
+                obj.spy(["foo"]);
+                obj.spy(["bar"]);
 
                 // When
                 const calledWithArgs = spied.inspect(2).calledWith(["bar "]);
@@ -617,14 +617,14 @@ describe("Spy", () => {
             it("returns args of the nth call", () => {
               // Given
               const obj = {
-                fn: () => {}
+                spy: () => {}
               };
 
-              const spied = spy(obj, "fn");
-              obj.fn(["foo"]);
-              obj.fn(["bar"]);
-              obj.fn(["hello"]);
-              obj.fn(["world"]);
+              const spied = spy(obj, "spy");
+              obj.spy(["foo"]);
+              obj.spy(["bar"]);
+              obj.spy(["hello"]);
+              obj.spy(["world"]);
 
               // When
               const { args } = spied.inspect(4);
@@ -637,15 +637,15 @@ describe("Spy", () => {
               it("returns true during invocation of calledWith with good arguments for the nth call", () => {
                 // Given
                 const obj = {
-                  fn: () => {}
+                  spy: () => {}
                 };
-                const spied = spy(obj, "fn");
-                obj.fn(["foo"]);
-                obj.fn(["bar"]);
-                obj.fn(["second foo"]);
-                obj.fn(["second bar"]);
-                obj.fn(["hello"]);
-                obj.fn(["world"]);
+                const spied = spy(obj, "spy");
+                obj.spy(["foo"]);
+                obj.spy(["bar"]);
+                obj.spy(["second foo"]);
+                obj.spy(["second bar"]);
+                obj.spy(["hello"]);
+                obj.spy(["world"]);
 
                 // When
                 const calledWithArgs = spied
@@ -659,12 +659,12 @@ describe("Spy", () => {
               it("returns false during invocation of calledWith with wrong arguments for the given call the first call", () => {
                 // Given
                 const obj = {
-                  fn: () => {}
+                  spy: () => {}
                 };
 
-                const spied = spy(obj, "fn");
-                obj.fn(["foo"]);
-                obj.fn(["bar"]);
+                const spied = spy(obj, "spy");
+                obj.spy(["foo"]);
+                obj.spy(["bar"]);
 
                 // When
                 const calledWithArgs = spied.inspect(2).calledWith(["bar "]);
@@ -681,17 +681,17 @@ describe("Spy", () => {
         it("resets callCount to zero", () => {
           // Given
           const obj = {
-            fn: () => {}
+            spy: () => {}
           };
-          const spied = spy(obj, "fn");
-          obj.fn({ foo: "foo", bar: "bar" });
-          obj.fn({ foo: "foo", bar: "bar" }, ["foo", "bar"]);
+          const spied = spy(obj, "spy");
+          obj.spy({ foo: "foo", bar: "bar" });
+          obj.spy({ foo: "foo", bar: "bar" }, ["foo", "bar"]);
 
           // When
           spied.reset();
 
           // Then
-          expect(spied.callCount()).to.eql(0);
+          expect(spied.callCount()).to.equal(0);
         });
       });
     });

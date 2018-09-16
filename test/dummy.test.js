@@ -1,7 +1,7 @@
 const { expect } = require("chai");
+const dummy = require("../src/dummy");
 
 describe("Dummy", () => {
-  const dummy = require("../src/dummy");
   context(".dummy(of)", () => {
     context("return type not provided", () => {
       it("creates dummy function that returns undefined on each invocation", () => {

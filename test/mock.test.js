@@ -1,17 +1,16 @@
 const { expect } = require("chai");
+const mock = require("../src/mock");
 
 describe("Mocks", () => {
-  const mock = require("../src/mock");
-
   context(".mock(obj, mockFnName)", () => {
     context(".callCount()", () => {
       context("not called", () => {
         it("returns zero", () => {
           // Given
           const obj = {
-            fn: () => {}
+            mock: () => {}
           };
-          const mocked = mock(obj, "fn");
+          const mocked = mock(obj, "mock");
 
           // Then
           expect(mocked.callCount()).to.equal(0);
@@ -22,12 +21,12 @@ describe("Mocks", () => {
         it("returns one", () => {
           // Given
           const obj = {
-            fn: () => {}
+            mock: () => {}
           };
-          const mocked = mock(obj, "fn");
+          const mocked = mock(obj, "mock");
 
           // When
-          obj.fn();
+          obj.mock();
           // Then
           expect(mocked.callCount()).to.equal(1);
         });
@@ -37,13 +36,13 @@ describe("Mocks", () => {
         it("returns two", () => {
           // Given
           const obj = {
-            fn: () => {}
+            mock: () => {}
           };
-          const mocked = mock(obj, "fn");
+          const mocked = mock(obj, "mock");
 
           // When
-          obj.fn();
-          obj.fn();
+          obj.mock();
+          obj.mock();
 
           // Then
           expect(mocked.callCount()).to.equal(2);
@@ -54,14 +53,14 @@ describe("Mocks", () => {
         it("returns three", () => {
           // Given
           const obj = {
-            fn: () => {}
+            mock: () => {}
           };
-          const mocked = mock(obj, "fn");
+          const mocked = mock(obj, "mock");
 
           // When
-          obj.fn();
-          obj.fn();
-          obj.fn();
+          obj.mock();
+          obj.mock();
+          obj.mock();
 
           // Then
           expect(mocked.callCount()).to.equal(3);
@@ -72,17 +71,17 @@ describe("Mocks", () => {
         it("returns the number of time the mock was called", () => {
           // Given
           const obj = {
-            fn: () => {}
+            mock: () => {}
           };
-          const mocked = mock(obj, "fn");
+          const mocked = mock(obj, "mock");
 
           // When
-          obj.fn();
-          obj.fn();
-          obj.fn();
-          obj.fn();
-          obj.fn();
-          obj.fn();
+          obj.mock();
+          obj.mock();
+          obj.mock();
+          obj.mock();
+          obj.mock();
+          obj.mock();
 
           // Then
           expect(mocked.callCount()).to.equal(6);
@@ -95,12 +94,12 @@ describe("Mocks", () => {
         it("returns true", () => {
           // Given
           const obj = {
-            fn: () => {}
+            mock: () => {}
           };
-          const mocked = mock(obj, "fn");
+          const mocked = mock(obj, "mock");
 
           // When
-          obj.fn();
+          obj.mock();
           // Then
           expect(mocked.calledOnce()).to.equal(true);
         });
@@ -110,14 +109,14 @@ describe("Mocks", () => {
         it("returns false", () => {
           // Given
           const obj = {
-            fn: () => {}
+            mock: () => {}
           };
-          const mocked = mock(obj, "fn");
+          const mocked = mock(obj, "mock");
 
           // When
-          obj.fn();
-          obj.fn();
-          obj.fn();
+          obj.mock();
+          obj.mock();
+          obj.mock();
 
           // Then
           expect(mocked.calledTwice()).to.equal(false);
@@ -130,13 +129,13 @@ describe("Mocks", () => {
         it("returns true", () => {
           // Given
           const obj = {
-            fn: () => {}
+            mock: () => {}
           };
-          const mocked = mock(obj, "fn");
+          const mocked = mock(obj, "mock");
 
           // When
-          obj.fn();
-          obj.fn();
+          obj.mock();
+          obj.mock();
 
           // Then
           expect(mocked.calledTwice()).to.equal(true);
@@ -147,14 +146,14 @@ describe("Mocks", () => {
         it("returns false", () => {
           // Given
           const obj = {
-            fn: () => {}
+            mock: () => {}
           };
-          const mocked = mock(obj, "fn");
+          const mocked = mock(obj, "mock");
 
           // When
-          obj.fn();
-          obj.fn();
-          obj.fn();
+          obj.mock();
+          obj.mock();
+          obj.mock();
 
           // Then
           expect(mocked.calledTwice()).to.equal(false);
@@ -167,14 +166,14 @@ describe("Mocks", () => {
         it("returns true", () => {
           // Given
           const obj = {
-            fn: () => {}
+            mock: () => {}
           };
-          const mocked = mock(obj, "fn");
+          const mocked = mock(obj, "mock");
 
           // When
-          obj.fn();
-          obj.fn();
-          obj.fn();
+          obj.mock();
+          obj.mock();
+          obj.mock();
 
           // Then
           expect(mocked.calledThrice()).to.equal(true);
@@ -185,12 +184,12 @@ describe("Mocks", () => {
         it("returns false", () => {
           // Given
           const obj = {
-            fn: () => {}
+            mock: () => {}
           };
-          const mocked = mock(obj, "fn");
+          const mocked = mock(obj, "mock");
 
           // When
-          obj.fn();
+          obj.mock();
 
           // Then
           expect(mocked.calledThrice()).to.equal(false);
@@ -203,9 +202,9 @@ describe("Mocks", () => {
         it("returns false", () => {
           // Given
           const obj = {
-            fn: () => {}
+            mock: () => {}
           };
-          const mocked = mock(obj, "fn");
+          const mocked = mock(obj, "mock");
 
           // When
           const calledWithArgs = mocked.calledWith({});
@@ -220,10 +219,10 @@ describe("Mocks", () => {
           it("returns false", () => {
             // Given
             const obj = {
-              fn: () => {}
+              mock: () => {}
             };
-            const mocked = mock(obj, "fn");
-            obj.fn();
+            const mocked = mock(obj, "mock");
+            obj.mock();
 
             // When
             const calledWithArgs = mocked.calledWith();
@@ -239,10 +238,10 @@ describe("Mocks", () => {
               it("returns true", () => {
                 // Given
                 const obj = {
-                  fn: () => {}
+                  mock: () => {}
                 };
-                const mocked = mock(obj, "fn");
-                obj.fn(true);
+                const mocked = mock(obj, "mock");
+                obj.mock(true);
 
                 // When
                 const calledWithArgs = mocked.calledWith(true);
@@ -258,11 +257,11 @@ describe("Mocks", () => {
                 it("returns true", () => {
                   // Given
                   const obj = {
-                    fn: () => {}
+                    mock: () => {}
                   };
 
-                  const mocked = mock(obj, "fn");
-                  obj.fn({}, true, []);
+                  const mocked = mock(obj, "mock");
+                  obj.mock({}, true, []);
 
                   // When
                   const calledWithArgs = mocked.calledWith({}, true, []);
@@ -278,10 +277,10 @@ describe("Mocks", () => {
             it("returns false", () => {
               // Given
               const obj = {
-                fn: () => {}
+                mock: () => {}
               };
-              const mocked = mock(obj, "fn");
-              obj.fn(true);
+              const mocked = mock(obj, "mock");
+              obj.mock(true);
 
               // When
               const calledWithArgs = mocked.calledWith(false);
@@ -299,9 +298,9 @@ describe("Mocks", () => {
         it("throws a 'test double is yet to be called' error", () => {
           // Given
           const obj = {
-            fn: () => {}
+            mock: () => {}
           };
-          const mocked = mock(obj, "fn");
+          const mocked = mock(obj, "mock");
 
           // When
           let error = null;
@@ -321,11 +320,11 @@ describe("Mocks", () => {
           it("returns args of last call", () => {
             // Given
             const obj = {
-              fn: () => {}
+              mock: () => {}
             };
-            const mocked = mock(obj, "fn");
-            obj.fn({ foo: "foo", bar: "bar" });
-            obj.fn({ foo: "foo", bar: "bar" }, ["foo", "bar"]);
+            const mocked = mock(obj, "mock");
+            obj.mock({ foo: "foo", bar: "bar" });
+            obj.mock({ foo: "foo", bar: "bar" }, ["foo", "bar"]);
 
             // When
             const args = mocked.args();
@@ -340,11 +339,11 @@ describe("Mocks", () => {
             it("throws a 'count not valid' error", () => {
               // Given
               const obj = {
-                fn: () => {}
+                mock: () => {}
               };
-              const mocked = mock(obj, "fn");
-              obj.fn();
-              obj.fn();
+              const mocked = mock(obj, "mock");
+              obj.mock();
+              obj.mock();
 
               // When
               let error = null;
@@ -363,10 +362,10 @@ describe("Mocks", () => {
             it("returns args of the call represented by the count", () => {
               // Given
               const obj = {
-                fn: () => {}
+                mock: () => {}
               };
-              const mocked = mock(obj, "fn");
-              obj.fn({ foo: "foo", bar: "bar" });
+              const mocked = mock(obj, "mock");
+              obj.mock({ foo: "foo", bar: "bar" });
 
               // When
               const args = mocked.args(1);
@@ -384,9 +383,9 @@ describe("Mocks", () => {
         it("throws a 'test double is yet to be called' error", () => {
           // Given
           const obj = {
-            fn: () => {}
+            mock: () => {}
           };
-          const mocked = mock(obj, "fn");
+          const mocked = mock(obj, "mock");
 
           // When
           let error = null;
@@ -406,11 +405,11 @@ describe("Mocks", () => {
           it("throws a 'count not valid' error", () => {
             // Given
             const obj = {
-              fn: () => {}
+              mock: () => {}
             };
-            const mocked = mock(obj, "fn");
-            obj.fn();
-            obj.fn();
+            const mocked = mock(obj, "mock");
+            obj.mock();
+            obj.mock();
 
             // When
             let error = null;
@@ -428,10 +427,10 @@ describe("Mocks", () => {
         it("returns an object represting a given call count", () => {
           // Given
           const obj = {
-            fn: () => {}
+            mock: () => {}
           };
-          const mocked = mock(obj, "fn");
-          obj.fn(["foo"]);
+          const mocked = mock(obj, "mock");
+          obj.mock(["foo"]);
 
           // When
           const { args, calledWith } = mocked.inspect(1);
@@ -445,11 +444,11 @@ describe("Mocks", () => {
           it("returns args of the first call", () => {
             // Given
             const obj = {
-              fn: () => {}
+              mock: () => {}
             };
-            const mocked = mock(obj, "fn");
-            obj.fn(["foo"]);
-            obj.fn(["bar"]);
+            const mocked = mock(obj, "mock");
+            obj.mock(["foo"]);
+            obj.mock(["bar"]);
 
             // When
             const { args } = mocked.inspect(1);
@@ -462,11 +461,11 @@ describe("Mocks", () => {
             it("returns true during invocation of calledWith with good arguments for first call", () => {
               // Given
               const obj = {
-                fn: () => {}
+                mock: () => {}
               };
-              const mocked = mock(obj, "fn");
-              obj.fn(["foo"]);
-              obj.fn(["bar"]);
+              const mocked = mock(obj, "mock");
+              obj.mock(["foo"]);
+              obj.mock(["bar"]);
 
               // When
               const calledWithArgs = mocked.inspect(1).calledWith(["foo"]);
@@ -478,11 +477,11 @@ describe("Mocks", () => {
             it("returns false during invocation of calledWith with wrong arguments for the given call the first call", () => {
               // Given
               const obj = {
-                fn: () => {}
+                mock: () => {}
               };
-              const mocked = mock(obj, "fn");
-              obj.fn(["foo"]);
-              obj.fn(["bar"]);
+              const mocked = mock(obj, "mock");
+              obj.mock(["foo"]);
+              obj.mock(["bar"]);
 
               // When
               const calledWithArgs = mocked.inspect(1).calledWith(["foo "]);
@@ -497,12 +496,12 @@ describe("Mocks", () => {
           it("returns args of the second call", () => {
             // Given
             const obj = {
-              fn: () => {}
+              mock: () => {}
             };
 
-            const mocked = mock(obj, "fn");
-            obj.fn(["foo"]);
-            obj.fn(["bar"]);
+            const mocked = mock(obj, "mock");
+            obj.mock(["foo"]);
+            obj.mock(["bar"]);
 
             // When
             const { args } = mocked.inspect(2);
@@ -515,11 +514,11 @@ describe("Mocks", () => {
             it("returns true during invocation of calledWith with good arguments for the second call", () => {
               // Given
               const obj = {
-                fn: () => {}
+                mock: () => {}
               };
-              const mocked = mock(obj, "fn");
-              obj.fn(["foo"]);
-              obj.fn(["bar"]);
+              const mocked = mock(obj, "mock");
+              obj.mock(["foo"]);
+              obj.mock(["bar"]);
 
               // When
               const calledWithArgs = mocked.inspect(2).calledWith(["bar"]);
@@ -531,12 +530,12 @@ describe("Mocks", () => {
             it("returns false during invocation of calledWith with wrong arguments for the given call the first call", () => {
               // Given
               const obj = {
-                fn: () => {}
+                mock: () => {}
               };
 
-              const mocked = mock(obj, "fn");
-              obj.fn(["foo"]);
-              obj.fn(["bar"]);
+              const mocked = mock(obj, "mock");
+              obj.mock(["foo"]);
+              obj.mock(["bar"]);
 
               // When
               const calledWithArgs = mocked.inspect(2).calledWith(["bar "]);
@@ -551,14 +550,14 @@ describe("Mocks", () => {
           it("returns args of the nth call", () => {
             // Given
             const obj = {
-              fn: () => {}
+              mock: () => {}
             };
 
-            const mocked = mock(obj, "fn");
-            obj.fn(["foo"]);
-            obj.fn(["bar"]);
-            obj.fn(["hello"]);
-            obj.fn(["world"]);
+            const mocked = mock(obj, "mock");
+            obj.mock(["foo"]);
+            obj.mock(["bar"]);
+            obj.mock(["hello"]);
+            obj.mock(["world"]);
 
             // When
             const { args } = mocked.inspect(4);
@@ -571,15 +570,15 @@ describe("Mocks", () => {
             it("returns true during invocation of calledWith with good arguments for the nth call", () => {
               // Given
               const obj = {
-                fn: () => {}
+                mock: () => {}
               };
-              const mocked = mock(obj, "fn");
-              obj.fn(["foo"]);
-              obj.fn(["bar"]);
-              obj.fn(["second foo"]);
-              obj.fn(["second bar"]);
-              obj.fn(["hello"]);
-              obj.fn(["world"]);
+              const mocked = mock(obj, "mock");
+              obj.mock(["foo"]);
+              obj.mock(["bar"]);
+              obj.mock(["second foo"]);
+              obj.mock(["second bar"]);
+              obj.mock(["hello"]);
+              obj.mock(["world"]);
 
               // When
               const calledWithArgs = mocked
@@ -593,12 +592,12 @@ describe("Mocks", () => {
             it("returns false during invocation of calledWith with wrong arguments for the given call the first call", () => {
               // Given
               const obj = {
-                fn: () => {}
+                mock: () => {}
               };
 
-              const mocked = mock(obj, "fn");
-              obj.fn(["foo"]);
-              obj.fn(["bar"]);
+              const mocked = mock(obj, "mock");
+              obj.mock(["foo"]);
+              obj.mock(["bar"]);
 
               // When
               const calledWithArgs = mocked.inspect(2).calledWith(["bar "]);
@@ -615,17 +614,17 @@ describe("Mocks", () => {
       it("resets callCount to zero", () => {
         // Given
         const obj = {
-          fn: () => {}
+          mock: () => {}
         };
-        const mocked = mock(obj, "fn");
-        obj.fn({ foo: "foo", bar: "bar" });
-        obj.fn({ foo: "foo", bar: "bar" }, ["foo", "bar"]);
+        const mocked = mock(obj, "mock");
+        obj.mock({ foo: "foo", bar: "bar" });
+        obj.mock({ foo: "foo", bar: "bar" }, ["foo", "bar"]);
 
         // When
         mocked.reset();
 
         // Then
-        expect(mocked.callCount()).to.eql(0);
+        expect(mocked.callCount()).to.equal(0);
       });
     });
   });
