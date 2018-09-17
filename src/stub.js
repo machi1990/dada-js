@@ -1,5 +1,5 @@
-const MockingBird = require("./mocking-bird");
 const isEqual = require("lodash/isEqual");
+const MockingBird = require("./mocking-bird");
 
 /**
  * @summary Creates an object that provides canned answers to calls made during
@@ -27,81 +27,28 @@ const isEqual = require("lodash/isEqual");
  *       (b) `returns(value)`: will return the value when the call argument matches `args`  supplied in the `when` construct.
  */
 module.exports = (obj, stubFnName) => {
-  let withSuccess = true;
-  let throwValue = undefined;
-  let returnValue = undefined;
-
-  const whenConstruct = {
-    called: false,
-    records: []
-  };
-
-  const lastRecorded = () => {
-    const records = whenConstruct.records;
-    return records[records.length - 1];
-  };
-
-  const when = (...args) => {
-    whenConstruct.called = true;
-    whenConstruct.records.push({
-      args,
+  let whenRecords = [],
+    globalRecord = {
+      shouldReturn: true,
       throwValue: undefined,
       returnValue: undefined
-    });
-  };
-
-  const returns = value => {
-    if (whenConstruct.called) {
-      const lasRecord = lastRecorded();
-      lasRecord.returnValue = value;
-      lasRecord.shouldReturn = true;
-      whenConstruct.called = false;
-    } else {
-      returnValue = value;
-      withSuccess = true;
-    }
-  };
-
-  const throws = error => {
-    if (whenConstruct.called) {
-      const lasRecord = lastRecorded();
-      lasRecord.throwValue = error;
-      lasRecord.shouldReturn = false;
-      whenConstruct.called = false;
-    } else {
-      throwValue = error;
-      withSuccess = false;
-    }
-  };
-
-  const lastRecordedWhenConstructForArgs = args => {
-    const records = whenConstruct.records;
-    const recordedWhens = records.filter(record => {
-      return (
-        isEqual(record.args, args) && (record.returnValue || record.throwValue)
-      );
-    });
-
-    return recordedWhens.pop();
-  };
+    };
 
   const stubBird = new MockingBird();
-  obj[stubFnName] = (...args) => {
-    stubBird.register(args);
-    const recorded = lastRecordedWhenConstructForArgs(args);
-    if (!recorded) {
-      if (withSuccess) return returnValue;
-      else throw throwValue;
-    } else if (recorded.shouldReturn) return recorded.returnValue;
-    else throw recorded.throwValue;
+
+  const reset = () => {
+    stubBird.reset();
+    whenRecords = [];
+    globalRecord = {
+      throwValue: undefined,
+      returnValue: undefined,
+      shouldReturn: true
+    };
   };
 
-  return {
-    when,
-    throws,
-    returns,
+  const stubBed = {
+    reset,
     args: stubBird.args.bind(stubBird),
-    reset: stubBird.reset.bind(stubBird),
     inspect: stubBird.inspect.bind(stubBird),
     callCount: stubBird.callCount.bind(stubBird),
     calledWith: stubBird.calledWith.bind(stubBird),
@@ -109,5 +56,68 @@ module.exports = (obj, stubFnName) => {
     calledTwice: stubBird.calledTwice.bind(stubBird),
     calledThrice: stubBird.calledThrice.bind(stubBird)
   };
-  return stub;
+
+  const returnsFn = record => {
+    return value => {
+      record.returnValue = value;
+      record.shouldReturn = true;
+      return {
+        ...stubBed,
+        when
+      };
+    };
+  };
+
+  const throwsFn = record => {
+    return error => {
+      record.throwValue = error;
+      record.shouldReturn = false;
+      return {
+        ...stubBed,
+        when
+      };
+    };
+  };
+
+  const when = (...args) => {
+    const record = {
+      args,
+      throwValue: undefined,
+      returnValue: undefined,
+      shouldReturn: undefined
+    };
+
+    whenRecords.push(record);
+
+    return {
+      throws: throwsFn(record),
+      returns: returnsFn(record)
+    };
+  };
+
+  const callResponse = args => {
+    const recordedWhens = whenRecords.filter(
+      record => record.shouldReturn !== undefined && isEqual(record.args, args)
+    );
+    return recordedWhens.pop() || globalRecord;
+  };
+
+  const throws = throwsFn(globalRecord);
+  const returns = returnsFn(globalRecord);
+
+  const stub = (...args) => {
+    stubBird.register(args);
+    const recorded = callResponse(args);
+    if (recorded.shouldReturn) return recorded.returnValue;
+    else throw recorded.throwValue;
+  };
+
+  obj[stubFnName] = stub;
+
+  return {
+    when,
+    throws,
+    returns,
+    ...stubBed
+  };
 };

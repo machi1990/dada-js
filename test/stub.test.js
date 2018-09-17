@@ -626,6 +626,43 @@ describe("Stubs", () => {
         // Then
         expect(stubbed.callCount()).to.equal(0);
       });
+
+      it("remove all args records", () => {
+        // Given
+        const obj = {
+          stub: () => {}
+        };
+        const stubbed = stub(obj, "stub");
+        obj.stub({ foo: "foo", bar: "bar" });
+        obj.stub({ foo: "foo", bar: "bar" }, ["foo", "bar"]);
+
+        stubbed
+          .returns("hi")
+          .when("en")
+          .returns("hello world")
+          .when("fr")
+          .returns("bonjour le monde")
+          .when("sw")
+          .returns("jambo dunia")
+          .when()
+          .throws("You must supply language argument");
+
+        // When
+        stubbed.reset();
+
+        // Then
+        const hi = obj.stub("ch");
+        const en = obj.stub("en");
+        const fr = obj.stub("fr");
+        const sw = obj.stub("sw");
+        const shouldNotThrow = obj.stub();
+
+        expect(hi).to.equal(undefined);
+        expect(en).to.equal(undefined);
+        expect(fr).to.equal(undefined);
+        expect(sw).to.equal(undefined);
+        expect(shouldNotThrow).to.equal(undefined);
+      });
     });
 
     context(".returns(value)", () => {
@@ -635,24 +672,49 @@ describe("Stubs", () => {
           const obj = {
             stub: () => {}
           };
-          const stubbed = stub(obj, "stub");
+          stub(obj, "stub");
+
           // When
           const value = obj.stub();
+
           // Then
           expect(value).to.equal(undefined);
         });
       });
 
       context("called once with a given value after creation", () => {
-        it("returns the given value during invocation of stub", () => {
+        it("returns a fluent stubbed object", () => {
           // Given
           const obj = {
             stub: () => {}
           };
           const stubbed = stub(obj, "stub");
-          stubbed.returns("foobar");
+
+          // When
+          const fluentStubbed = stubbed.returns("foobar");
+
+          // Then
+          expect(fluentStubbed.when).to.be.a("function");
+          expect(fluentStubbed.args).to.be.a("function");
+          expect(fluentStubbed.reset).to.be.a("function");
+          expect(fluentStubbed.inspect).to.be.a("function");
+          expect(fluentStubbed.callCount).to.be.a("function");
+          expect(fluentStubbed.calledWith).to.be.a("function");
+          expect(fluentStubbed.calledOnce).to.be.a("function");
+          expect(fluentStubbed.calledTwice).to.be.a("function");
+          expect(fluentStubbed.calledThrice).to.be.a("function");
+        });
+
+        it("returns the given value during invocation of stub", () => {
+          // Given
+          const obj = {
+            stub: () => {}
+          };
+          stub(obj, "stub").returns("foobar");
+
           // When
           const value = obj.stub({ foo: "foo", bar: "bar" });
+
           // Then
           expect(value).to.equal("foobar");
         });
@@ -666,7 +728,6 @@ describe("Stubs", () => {
             const obj = {
               stub: () => {}
             };
-
             const stubbed = stub(obj, "stub");
             stubbed.returns("foo");
             stubbed.returns("bar");
@@ -689,23 +750,45 @@ describe("Stubs", () => {
           const obj = {
             stub: () => {}
           };
-          const stubbed = stub(obj, "stub");
+          stub(obj, "stub");
 
           // When
           const value = obj.stub();
+
           // Then
           expect(value).to.equal(undefined);
         });
       });
 
       context("called once with a given value after creation", () => {
+        it("returns an object containing `when` and test double inspection methods", () => {
+          // Given
+          const obj = {
+            stub: () => {}
+          };
+
+          // When
+          const fluentStubbed = stub(obj, "stub").throws("foobar");
+
+          // Then
+          expect(fluentStubbed.when).to.be.a("function");
+          expect(fluentStubbed.args).to.be.a("function");
+          expect(fluentStubbed.reset).to.be.a("function");
+          expect(fluentStubbed.inspect).to.be.a("function");
+          expect(fluentStubbed.callCount).to.be.a("function");
+          expect(fluentStubbed.calledWith).to.be.a("function");
+          expect(fluentStubbed.calledOnce).to.be.a("function");
+          expect(fluentStubbed.calledTwice).to.be.a("function");
+          expect(fluentStubbed.calledThrice).to.be.a("function");
+        });
+
         it("returns the given value during invocation of stub", () => {
           // Given
           const obj = {
             stub: () => {}
           };
-          const stubbed = stub(obj, "stub");
-          stubbed.throws("stub error");
+          stub(obj, "stub").throws("stub error");
+
           // When
           let error = null;
           try {
@@ -714,6 +797,7 @@ describe("Stubs", () => {
             error = e;
           }
 
+          // Then
           expect(error).to.equal("stub error");
         });
       });
@@ -757,11 +841,10 @@ describe("Stubs", () => {
             };
             const firstArg = "foo";
             const secondArg = "bar";
-            const stubbed = stub(obj, "stub");
-            stubbed.throws("global error");
-            stubbed.when(firstArg, secondArg);
+            stub(obj, "stub")
+              .throws("global error")
+              .when(firstArg, secondArg);
 
-            // When
             // When
             let error = null;
             try {
@@ -781,15 +864,15 @@ describe("Stubs", () => {
             const obj = {
               stub: () => {}
             };
-
             const firstArg = "foo";
             const secondArg = "bar";
-            const stubbed = stub(obj, "stub");
-            stubbed.returns(["not", "with", "foo", "bar"]);
-            stubbed.when(firstArg, secondArg);
+            stub(obj, "stub")
+              .returns(["not", "with", "foo", "bar"])
+              .when(firstArg, secondArg);
 
             // When
             const value = obj.stub(firstArg, secondArg);
+
             // Then
             expect(value).to.eql(["not", "with", "foo", "bar"]);
           });
@@ -805,10 +888,12 @@ describe("Stubs", () => {
 
           const firstArg = "foo";
           const secondArg = "bar";
-          const stubbed = stub(obj, "stub");
-          stubbed.returns(["not", "with", "foo", "bar"]);
-          stubbed.when(firstArg, secondArg);
-          stubbed.returns("foo-bar");
+          stub(obj, "stub")
+            .returns(["not", "with", "foo", "bar"])
+            .when(firstArg, secondArg)
+            .returns("foo-bar")
+            .when(secondArg, firstArg)
+            .returns("bar-with-foo");
 
           // When
           const value = obj.stub(firstArg, secondArg);
@@ -824,12 +909,14 @@ describe("Stubs", () => {
 
           const firstArg = "foo";
           const secondArg = "bar";
-          const stubbed = stub(obj, "stub");
-          stubbed.returns(["not", "with", "foo", "bar"]);
-          stubbed.when(firstArg, secondArg);
-          stubbed.returns("foo-with-bar");
+          stub(obj, "stub")
+            .returns(["not", "with", "foo", "bar"])
+            .when(firstArg, secondArg)
+            .returns("foo-with-bar");
+
           // When
           const value = obj.stub("hello", "world");
+
           // Then
           expect(value).to.eql(["not", "with", "foo", "bar"]);
         });
@@ -844,10 +931,10 @@ describe("Stubs", () => {
 
           const firstArg = "foo";
           const secondArg = "bar";
-          const stubbed = stub(obj, "stub");
-          stubbed.returns(["not", "with", "foo", "bar"]);
-          stubbed.when(firstArg, secondArg);
-          stubbed.throws("cannot read foo-bar of undefined");
+          stub(obj, "stub")
+            .returns(["not", "with", "foo", "bar"])
+            .when(firstArg, secondArg)
+            .throws("cannot read foo-bar of undefined");
 
           // When
           let error = null;
@@ -868,10 +955,11 @@ describe("Stubs", () => {
 
           const firstArg = "foo";
           const secondArg = "bar";
-          const stubbed = stub(obj, "stub");
-          stubbed.throws("cannot read foo and bar");
-          stubbed.when(firstArg, secondArg);
-          stubbed.throws("foo-without-bar");
+          stub(obj, "stub")
+            .throws("cannot read foo and bar")
+            .when(firstArg, secondArg)
+            .throws("foo-without-bar");
+
           // When
           let error = null;
           try {
@@ -896,11 +984,11 @@ describe("Stubs", () => {
 
               const firstArg = "foo";
               const secondArg = "bar";
-              const stubbed = stub(obj, "stub");
-              stubbed.when(firstArg, secondArg);
-              stubbed.returns("foo-bar");
-              stubbed.when(firstArg, secondArg);
-              stubbed.throws("cannot read foo-bar of undefined");
+              stub(obj, "stub")
+                .when(firstArg, secondArg)
+                .returns("foo-bar")
+                .when(firstArg, secondArg)
+                .throws("cannot read foo-bar of undefined");
 
               // When
               let error = null;
@@ -923,11 +1011,11 @@ describe("Stubs", () => {
 
               const firstArg = "foo";
               const secondArg = "bar";
-              const stubbed = stub(obj, "stub");
-              stubbed.when(firstArg, secondArg);
-              stubbed.throws("cannot read foo-bar of undefined");
-              stubbed.when(firstArg, secondArg);
-              stubbed.returns("foo-bar");
+              stub(obj, "stub")
+                .when(firstArg, secondArg)
+                .throws("cannot read foo-bar of undefined")
+                .when(firstArg, secondArg)
+                .returns("foo-bar");
 
               // When
 
@@ -939,6 +1027,44 @@ describe("Stubs", () => {
           });
         }
       );
+    });
+
+    context("fluency", () => {
+      it("is fluent", () => {
+        // Given
+        const obj = {
+          stub: () => {}
+        };
+
+        // When
+        const stubbed = stub(obj, "stub")
+          .throws("foobar")
+          .when()
+          .returns("called without arguments")
+          .when("foo", "bar")
+          .returns("FOO-BAR")
+          .when("hello")
+          .throws("world does not exist");
+
+        obj.stub();
+        obj.stub("foo", "bar");
+
+        let error = null;
+        try {
+          obj.stub("hello");
+        } catch (e) {
+          error = e;
+        }
+
+        // Then
+        expect(stubbed.args(1)).to.eql([]);
+        expect(stubbed.callCount()).to.equal(3);
+        expect(stubbed.inspect(2).calledWith("foo", "bar")).to.equal(true);
+        expect(stubbed.calledWith("hello")).to.equal(true);
+        expect(stubbed.calledOnce()).to.equal(false);
+        expect(stubbed.calledTwice()).to.equal(false);
+        expect(stubbed.calledThrice()).to.equal(true);
+      });
     });
   });
 });
