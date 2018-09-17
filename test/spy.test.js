@@ -79,6 +79,21 @@ describe("Spy", () => {
             // Then
             expect(spied.callCount()).to.equal(0);
           });
+
+          context(".notCalled()", () => {
+            it("returns true", () => {
+              // Given
+              const obj = {
+                spy: () => {}
+              };
+
+              // When
+              const spied = spy(obj, "spy");
+
+              // Then
+              expect(spied.notCalled()).to.equal(true);
+            });
+          });
         });
 
         context("called one time", () => {
@@ -93,6 +108,20 @@ describe("Spy", () => {
             obj.spy();
             // Then
             expect(spied.callCount()).to.equal(1);
+          });
+
+          context(".notCalled()", () => {
+            it("returns false", () => {
+              // Given
+              const obj = {
+                spy: () => {}
+              };
+              const spied = spy(obj, "spy");
+              // When
+              obj.spy();
+              // Then
+              expect(spied.notCalled()).to.equal(false);
+            });
           });
         });
 

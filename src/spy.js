@@ -37,6 +37,7 @@ module.exports = (obj, spyFnName) => {
     args: spyBird.args.bind(spyBird),
     reset: spyBird.reset.bind(spyBird),
     inspect: spyBird.inspect.bind(spyBird),
+    notCalled: spyBird.notCalled.bind(spyBird),
     callCount: spyBird.callCount.bind(spyBird),
     calledWith: spyBird.calledWith.bind(spyBird),
     calledOnce: spyBird.calledOnce.bind(spyBird),

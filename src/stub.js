@@ -50,6 +50,7 @@ module.exports = (obj, stubFnName) => {
     reset,
     args: stubBird.args.bind(stubBird),
     inspect: stubBird.inspect.bind(stubBird),
+    notCalled: stubBird.notCalled.bind(stubBird),
     callCount: stubBird.callCount.bind(stubBird),
     calledWith: stubBird.calledWith.bind(stubBird),
     calledOnce: stubBird.calledOnce.bind(stubBird),

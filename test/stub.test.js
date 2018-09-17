@@ -15,6 +15,20 @@ describe("Stubs", () => {
           // Then
           expect(stubbed.callCount()).to.equal(0);
         });
+
+        context(".notCalled()", () => {
+          it("returns true", () => {
+            // Given
+            const obj = {
+              stub: () => {}
+            };
+            // When
+            const stubbed = stub(obj, "stub");
+
+            // Then
+            expect(stubbed.notCalled()).to.equal(true);
+          });
+        });
       });
 
       context("called one time", () => {
@@ -29,6 +43,20 @@ describe("Stubs", () => {
           obj.stub();
           // Then
           expect(stubbed.callCount()).to.equal(1);
+        });
+
+        context(".notCalled()", () => {
+          it("returns false", () => {
+            // Given
+            const obj = {
+              stub: () => {}
+            };
+            // When
+            const stubbed = stub(obj, "stub");
+            obj.stub();
+            // Then
+            expect(stubbed.notCalled()).to.equal(false);
+          });
         });
       });
 

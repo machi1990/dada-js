@@ -15,6 +15,20 @@ describe("Mocks", () => {
           // Then
           expect(mocked.callCount()).to.equal(0);
         });
+
+        context(".notCalled()", () => {
+          it("returns true", () => {
+            // Given
+            const obj = {
+              mock: () => {}
+            };
+            // When
+            const mocked = mock(obj, "mock");
+
+            // Then
+            expect(mocked.notCalled()).to.equal(true);
+          });
+        });
       });
 
       context("called one time", () => {
@@ -29,6 +43,20 @@ describe("Mocks", () => {
           obj.mock();
           // Then
           expect(mocked.callCount()).to.equal(1);
+        });
+
+        context(".notCalled()", () => {
+          it("returns false", () => {
+            // Given
+            const obj = {
+              mock: () => {}
+            };
+            // When
+            const mocked = mock(obj, "mock");
+            obj.mock();
+            // Then
+            expect(mocked.notCalled()).to.equal(false);
+          });
         });
       });
 

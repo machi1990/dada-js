@@ -4,21 +4,23 @@ const isEqual = require("lodash/isEqual"),
   CALLED_TWICE = 2,
   CALLED_THRICE = 3;
 
+const registry = Symbol();
+
 /**
  * @private
  * Test double container
  */
 class MockingBird {
   constructor() {
-    this.registry = [];
+    this[registry] = [];
   }
 
-  yetToBeCalled() {
-    return this.registry.length === NOT_CALLED;
+  notCalled() {
+    return this[registry].length === NOT_CALLED;
   }
 
   register(callArgs) {
-    this.registry.push(callArgs);
+    this[registry].push(callArgs);
   }
 
   calledOnce() {
@@ -34,14 +36,14 @@ class MockingBird {
   }
 
   callCount() {
-    return this.registry.length;
+    return this[registry].length;
   }
 
   args(count) {
-    if (this.yetToBeCalled()) throw "test double is yet to be called";
+    if (this.notCalled()) throw "test double is yet to be called";
     if (this.isWithCallCount(count)) throw "count not valid";
-    if (count === undefined) count = this.registry.length;
-    return this.registry[count - 1];
+    if (count === undefined) count = this.callCount();
+    return this[registry][count - 1];
   }
 
   isWithCallCount(count) {
@@ -49,7 +51,7 @@ class MockingBird {
   }
 
   calledWith(...args) {
-    if (this.yetToBeCalled()) return false;
+    if (this.notCalled()) return false;
     const lastCalledArgs = this.args();
     return isEqual(lastCalledArgs, args);
   }
@@ -63,7 +65,7 @@ class MockingBird {
   }
 
   reset() {
-    this.registry = [];
+    this[registry] = [];
   }
 }
 

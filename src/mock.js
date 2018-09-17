@@ -30,6 +30,7 @@ module.exports = (obj, mockFnName) => {
     reset: mockBird.reset.bind(mockBird),
     inspect: mockBird.inspect.bind(mockBird),
     callCount: mockBird.callCount.bind(mockBird),
+    notCalled: mockBird.notCalled.bind(mockBird),
     calledWith: mockBird.calledWith.bind(mockBird),
     calledOnce: mockBird.calledOnce.bind(mockBird),
     calledTwice: mockBird.calledTwice.bind(mockBird),
