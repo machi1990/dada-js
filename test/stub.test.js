@@ -1055,6 +1055,50 @@ describe("Stubs", () => {
           });
         }
       );
+
+      context("currying `when` construct", () => {
+        it("registers the arg value, and returns or throws corresponding value depending on args supplied during invocation with arg.", () => {
+          // Given
+          const obj = {
+            stub: () => {}
+          };
+
+          const firstArg = "foo";
+          const secondArg = "bar";
+          const other = "other";
+
+          const stubbed = stub(obj, "stub").returns([
+            "not",
+            "with",
+            "argument"
+          ]);
+
+          const whenFooBar = stubbed.when(firstArg, secondArg);
+          const whenBarFoo = stubbed.when(secondArg, firstArg);
+          const whenOther = stubbed.when(other);
+
+          whenOther.throws("cannot read foo or bar of other");
+          whenBarFoo.returns("bar-foo");
+          whenFooBar.returns("foo-bar");
+
+          // When
+          const fooBar = obj.stub(firstArg, secondArg);
+          const barFoo = obj.stub(secondArg, firstArg);
+          const notWithArgument = obj.stub();
+          let thrownError = null;
+
+          try {
+            obj.stub(other);
+          } catch (error) {
+            thrownError = error;
+          }
+          // Then
+          expect(fooBar).to.equal("foo-bar");
+          expect(barFoo).to.equal("bar-foo");
+          expect(notWithArgument).to.eql(["not", "with", "argument"]);
+          expect(thrownError).to.equal("cannot read foo or bar of other");
+        });
+      });
     });
 
     context("fluency", () => {
