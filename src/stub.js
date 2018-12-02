@@ -114,11 +114,22 @@ module.exports = (obj, stubFnName) => {
   };
 
   obj[stubFnName] = stub;
+  const originalFn = obj[stubFnName].bind(obj);
+  const revive = () => {
+    obj[stubFnName] = originalFn;
+  };
 
-  return {
+  const stubMethods = {
     when,
     throws,
+    revive,
     returns,
     ...stubBed
   };
+
+  for (const method in stubMethods) {
+    obj[stubFnName][method] = stubMethods[method];
+  }
+
+  return obj[stubFnName];
 };

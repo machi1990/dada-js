@@ -723,6 +723,27 @@ describe("Spy", () => {
           expect(spied.callCount()).to.equal(0);
         });
       });
+
+      context(".revive()", () => {
+        it("returns the spy to the original state", () => {
+          // Given
+          const obj = {
+            spy: () => {}
+          };
+          const spied = spy(obj, "spy");
+          obj.spy({ foo: "foo", bar: "bar" });
+          obj.spy({ foo: "foo", bar: "bar" }, ["foo", "bar"]);
+
+          // When
+          spied.revive();
+
+          // Then
+
+          expect(obj.spy).to.be.a("function");
+          expect(obj.spy.callCount).to.equal(undefined);
+          expect(obj.spy.reset).to.equal(undefined);
+        });
+      });
     });
   });
 });

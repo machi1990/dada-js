@@ -655,5 +655,26 @@ describe("Mocks", () => {
         expect(mocked.callCount()).to.equal(0);
       });
     });
+
+    context(".revive()", () => {
+      it("returns the mock to the original state", () => {
+        // Given
+        const obj = {
+          mock: () => {}
+        };
+
+        mock(obj, "mock");
+        obj.mock({ foo: "foo", bar: "bar" });
+        obj.mock({ foo: "foo", bar: "bar" }, ["foo", "bar"]);
+
+        // When
+        obj.mock.revive();
+
+        // Then
+        expect(obj.mock).to.be.a("function");
+        expect(obj.mock.callCount).to.equal(undefined);
+        expect(obj.mock.reset).to.equal(undefined);
+      });
+    });
   });
 });

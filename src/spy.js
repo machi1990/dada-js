@@ -22,18 +22,22 @@ const MockingBird = require("./mocking-bird");
 module.exports = (obj, spyFnName) => {
   if (!obj[spyFnName]) throw "undefined function";
 
-  const fn = obj[spyFnName];
-  if (typeof fn !== "function") throw "property is not a function";
+  if (typeof obj[spyFnName] !== "function") throw "property is not a function";
 
+  const originalFn = obj[spyFnName].bind(obj);
   const spyBird = new MockingBird();
   const spy = (...args) => {
     spyBird.register(args);
-    return fn.apply(obj, args);
+    return originalFn.apply(undefined, args);
   };
 
   obj[spyFnName] = spy;
+  const revive = () => {
+    obj[spyFnName] = originalFn;
+  };
 
-  return {
+  const spyMethods = {
+    revive,
     args: spyBird.args.bind(spyBird),
     reset: spyBird.reset.bind(spyBird),
     inspect: spyBird.inspect.bind(spyBird),
@@ -44,4 +48,10 @@ module.exports = (obj, spyFnName) => {
     calledTwice: spyBird.calledTwice.bind(spyBird),
     calledThrice: spyBird.calledThrice.bind(spyBird)
   };
+
+  for (const key in spyMethods) {
+    obj[spyFnName][key] = spyMethods[key];
+  }
+
+  return obj[spyFnName];
 };

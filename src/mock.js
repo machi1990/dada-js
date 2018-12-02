@@ -23,9 +23,16 @@ const MockingBird = require("./mocking-bird");
  */
 module.exports = (obj, mockFnName) => {
   const mockBird = new MockingBird();
+  const originalFn = obj[mockFnName].bind(obj);
+
   obj[mockFnName] = (...args) => mockBird.register(args);
 
-  return {
+  const revive = () => {
+    obj[mockFnName] = originalFn;
+  };
+
+  const mockMethods = {
+    revive,
     args: mockBird.args.bind(mockBird),
     reset: mockBird.reset.bind(mockBird),
     inspect: mockBird.inspect.bind(mockBird),
@@ -36,4 +43,10 @@ module.exports = (obj, mockFnName) => {
     calledTwice: mockBird.calledTwice.bind(mockBird),
     calledThrice: mockBird.calledThrice.bind(mockBird)
   };
+
+  for (const key in mockMethods) {
+    obj[mockFnName][key] = mockMethods[key];
+  }
+
+  return obj[mockFnName];
 };

@@ -693,6 +693,27 @@ describe("Stubs", () => {
       });
     });
 
+    context(".revive()", () => {
+      it("returns the stub to the original state", () => {
+        // Given
+        const obj = {
+          stub: () => {}
+        };
+
+        stub(obj, "stub");
+        obj.stub({ foo: "foo", bar: "bar" });
+        obj.stub({ foo: "foo", bar: "bar" }, ["foo", "bar"]);
+
+        // When
+        obj.stub.revive();
+
+        // Then
+        expect(obj.stub).to.be.a("function");
+        expect(obj.stub.callCount).to.equal(undefined);
+        expect(obj.stub.reset).to.equal(undefined);
+      });
+    });
+
     context(".returns(value)", () => {
       context("not called after creation", () => {
         it("returns undefined", () => {
