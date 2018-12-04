@@ -113,8 +113,9 @@ module.exports = (obj, stubFnName) => {
     else throw recorded.throwValue;
   };
 
-  obj[stubFnName] = stub;
   const originalFn = obj[stubFnName].bind(obj);
+
+  obj[stubFnName] = stub;
   const revive = () => {
     obj[stubFnName] = originalFn;
   };
