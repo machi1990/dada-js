@@ -32,12 +32,12 @@ module.exports = (obj, spyFnName) => {
   };
 
   obj[spyFnName] = spy;
-  const revive = () => {
+  const reconstruct = () => {
     obj[spyFnName] = originalFn;
   };
 
   const spyMethods = {
-    revive,
+    reconstruct,
     args: spyBird.args.bind(spyBird),
     reset: spyBird.reset.bind(spyBird),
     inspect: spyBird.inspect.bind(spyBird),

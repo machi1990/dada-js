@@ -655,7 +655,7 @@ describe("Mocks", () => {
       });
     });
 
-    context(".revive()", () => {
+    context(".reconstruct()", () => {
       it("returns the mock to the original state", () => {
         // Given
         const obj = {
@@ -667,7 +667,7 @@ describe("Mocks", () => {
         obj.mock({ foo: "foo", bar: "bar" }, ["foo", "bar"]);
 
         // When
-        obj.mock.revive();
+        obj.mock.reconstruct();
 
         // Then
         expect(obj.mock).to.be.a("function");

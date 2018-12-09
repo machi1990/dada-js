@@ -4,7 +4,7 @@ const MockingBird = require("./mocking-bird");
  * @summary Creates a dummy function returning a value passed as parameter.
  * The function can be passed around but never actually used.
  * Usually it can be used as a callback.
- * Has the same API (expect for the revive method) as mocks in our case.
+ * Has the same API (expect for the reconstruct method) as mocks in our case.
  * @param {*} of
  */
 module.exports = of => {
