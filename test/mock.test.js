@@ -1,6 +1,5 @@
 const { expect } = require("chai");
 const mock = require("../src/mock");
-
 describe("Mocks", () => {
   context(".mock(obj, mockFnName)", () => {
     context(".callCount()", () => {
