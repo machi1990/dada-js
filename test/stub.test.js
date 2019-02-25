@@ -693,7 +693,7 @@ describe("Stubs", () => {
       });
     });
 
-    context(".reconstruct()", () => {
+    context(".restore()", () => {
       it("returns the stub to the original state", () => {
         // Given
         const obj = {
@@ -705,7 +705,7 @@ describe("Stubs", () => {
         obj.stub({ foo: "foo", bar: "bar" }, ["foo", "bar"]);
 
         // When
-        obj.stub.reconstruct();
+        obj.stub.restore();
 
         // Then
         expect(obj.stub).to.be.a("function");

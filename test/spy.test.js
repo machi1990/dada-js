@@ -724,7 +724,7 @@ describe("Spy", () => {
         });
       });
 
-      context(".reconstruct()", () => {
+      context(".restore()", () => {
         it("returns the spy to the original state", () => {
           // Given
           const obj = {
@@ -735,7 +735,7 @@ describe("Spy", () => {
           obj.spy({ foo: "foo", bar: "bar" }, ["foo", "bar"]);
 
           // When
-          spied.reconstruct();
+          spied.restore();
 
           // Then
 

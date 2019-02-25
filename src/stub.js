@@ -116,14 +116,14 @@ module.exports = (obj, stubFnName) => {
   const originalFn = obj[stubFnName].bind(obj);
 
   obj[stubFnName] = stub;
-  const reconstruct = () => {
+  const restore = () => {
     obj[stubFnName] = originalFn;
   };
 
   const stubMethods = {
     when,
     throws,
-    reconstruct,
+    restore,
     returns,
     ...stubBed
   };

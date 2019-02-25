@@ -1,6 +1,6 @@
-# td-js
+# js-dada
 
-[![Build Status](https://travis-ci.com/machi1990/td-js.svg?branch=master)](https://travis-ci.com/machi1990/td-js)
+[![Build Status](https://travis-ci.com/machi1990/dada-js.svg?branch=master)](https://travis-ci.com/machi1990/td-js)
 
 Test Double for your testing needs in JavaScript inspired by [this blog](https://martinfowler.com/bliki/TestDouble.html) on test doubles by Martin Fowler.
 

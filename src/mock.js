@@ -27,12 +27,12 @@ module.exports = (obj, mockFnName) => {
 
   obj[mockFnName] = (...args) => mockBird.register(args);
 
-  const reconstruct = () => {
+  const restore = () => {
     obj[mockFnName] = originalFn;
   };
 
   const mockMethods = {
-    reconstruct,
+    restore,
     args: mockBird.args.bind(mockBird),
     reset: mockBird.reset.bind(mockBird),
     inspect: mockBird.inspect.bind(mockBird),
