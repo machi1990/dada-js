@@ -1,11 +1,18 @@
-const isEqual = require("lodash/isEqual"),
+const { deepEqual } = require("assert"),
   NOT_CALLED = 0,
   CALLED_ONCE = 1,
   CALLED_TWICE = 2,
   CALLED_THRICE = 3;
 
 const registry = Symbol();
-
+const isEqual = (a, b) => {
+  try {
+    deepEqual(a, b);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
 /**
  * @private
  * Test double container

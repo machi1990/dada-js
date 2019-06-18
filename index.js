@@ -22,7 +22,7 @@ module.exports = (function(t, e) {
       t.exports = e;
     },
     9: function(t, e, r) {
-      var n = r(576);
+      var n = r(549);
       var a = typeof self == "object" && self && self.Object === Object && self;
       var o = n || a || Function("return this")();
       t.exports = o;
@@ -489,6 +489,9 @@ module.exports = (function(t, e) {
       }
       t.exports = mapToArray;
     },
+    393: function(t) {
+      t.exports = require("assert");
+    },
     399: function(t, e, r) {
       var n = r(35),
         a = r(9);
@@ -525,85 +528,6 @@ module.exports = (function(t, e) {
         return o;
       }
       t.exports = arrayFilter;
-    },
-    409: function(t, e, r) {
-      const n = r(234);
-      const a = r(568);
-      t.exports = (t, e) => {
-        let r = [],
-          o = {
-            shouldReturn: true,
-            throwValue: undefined,
-            returnValue: undefined
-          };
-        const i = new a();
-        const s = () => {
-          i.reset();
-          r = [];
-          o = {
-            throwValue: undefined,
-            returnValue: undefined,
-            shouldReturn: true
-          };
-        };
-        const c = {
-          reset: s,
-          args: i.args.bind(i),
-          inspect: i.inspect.bind(i),
-          notCalled: i.notCalled.bind(i),
-          callCount: i.callCount.bind(i),
-          calledWith: i.calledWith.bind(i),
-          calledOnce: i.calledOnce.bind(i),
-          calledTwice: i.calledTwice.bind(i),
-          calledThrice: i.calledThrice.bind(i)
-        };
-        const u = t => {
-          return e => {
-            t.returnValue = e;
-            t.shouldReturn = true;
-            return { ...c, when: f };
-          };
-        };
-        const l = t => {
-          return e => {
-            t.throwValue = e;
-            t.shouldReturn = false;
-            return { ...c, when: f };
-          };
-        };
-        const f = (...t) => {
-          const e = {
-            args: t,
-            throwValue: undefined,
-            returnValue: undefined,
-            shouldReturn: undefined
-          };
-          r.push(e);
-          return { throws: l(e), returns: u(e) };
-        };
-        const p = t => {
-          const e = r.filter(e => e.shouldReturn !== undefined && n(e.args, t));
-          return e.pop() || o;
-        };
-        const h = l(o);
-        const d = u(o);
-        const v = (...t) => {
-          i.register(t);
-          const e = p(t);
-          if (e.shouldReturn) return e.returnValue;
-          else throw e.throwValue;
-        };
-        const b = t[e].bind(t);
-        t[e] = v;
-        const y = () => {
-          t[e] = b;
-        };
-        const _ = { when: f, throws: h, restore: y, returns: d, ...c };
-        for (const r in _) {
-          t[e][r] = _[r];
-        }
-        return t[e];
-      };
     },
     412: function(t) {
       var e = Function.prototype;
@@ -826,6 +750,14 @@ module.exports = (function(t, e) {
       }
       t.exports = keys;
     },
+    549: function(t) {
+      var e =
+        typeof global == "object" &&
+        global &&
+        global.Object === Object &&
+        global;
+      t.exports = e;
+    },
     564: function(t) {
       function baseTimes(t, e) {
         var r = -1,
@@ -845,12 +777,20 @@ module.exports = (function(t, e) {
       t.exports = isLength;
     },
     568: function(t, e, r) {
-      const n = r(234),
+      const { deepEqual: n } = r(393),
         a = 0,
         o = 1,
         i = 2,
         s = 3;
       const c = Symbol();
+      const u = (t, e) => {
+        try {
+          n(t, e);
+          return true;
+        } catch (t) {
+          return false;
+        }
+      };
       class MockingBird {
         constructor() {
           this[c] = [];
@@ -885,11 +825,11 @@ module.exports = (function(t, e) {
         calledWith(...t) {
           if (this.notCalled()) return false;
           const e = this.args();
-          return n(e, t);
+          return u(e, t);
         }
         inspect(t) {
           const e = this.args(t);
-          return { args: e, calledWith: (...t) => n(e, t) };
+          return { args: e, calledWith: (...t) => u(e, t) };
         }
         reset() {
           this[c] = [];
@@ -897,13 +837,84 @@ module.exports = (function(t, e) {
       }
       t.exports = MockingBird;
     },
-    576: function(t) {
-      var e =
-        typeof global == "object" &&
-        global &&
-        global.Object === Object &&
-        global;
-      t.exports = e;
+    576: function(t, e, r) {
+      const n = r(234);
+      const a = r(568);
+      t.exports = (t, e) => {
+        let r = [],
+          o = {
+            shouldReturn: true,
+            throwValue: undefined,
+            returnValue: undefined
+          };
+        const i = new a();
+        const s = () => {
+          i.reset();
+          r = [];
+          o = {
+            throwValue: undefined,
+            returnValue: undefined,
+            shouldReturn: true
+          };
+        };
+        const c = {
+          reset: s,
+          args: i.args.bind(i),
+          inspect: i.inspect.bind(i),
+          notCalled: i.notCalled.bind(i),
+          callCount: i.callCount.bind(i),
+          calledWith: i.calledWith.bind(i),
+          calledOnce: i.calledOnce.bind(i),
+          calledTwice: i.calledTwice.bind(i),
+          calledThrice: i.calledThrice.bind(i)
+        };
+        const u = t => {
+          return e => {
+            t.returnValue = e;
+            t.shouldReturn = true;
+            return { ...c, when: f };
+          };
+        };
+        const l = t => {
+          return e => {
+            t.throwValue = e;
+            t.shouldReturn = false;
+            return { ...c, when: f };
+          };
+        };
+        const f = (...t) => {
+          const e = {
+            args: t,
+            throwValue: undefined,
+            returnValue: undefined,
+            shouldReturn: undefined
+          };
+          r.push(e);
+          return { throws: l(e), returns: u(e) };
+        };
+        const p = t => {
+          const e = r.filter(e => e.shouldReturn !== undefined && n(e.args, t));
+          return e.pop() || o;
+        };
+        const h = l(o);
+        const d = u(o);
+        const v = (...t) => {
+          i.register(t);
+          const e = p(t);
+          if (e.shouldReturn) return e.returnValue;
+          else throw e.throwValue;
+        };
+        const b = t[e].bind(t);
+        t[e] = v;
+        const y = () => {
+          t[e] = b;
+        };
+        const _ = { when: f, throws: h, restore: y, returns: d, ...c };
+        for (const r in _) {
+          t[e][r] = _[r];
+        }
+        return t[e];
+      };
     },
     578: function(t) {
       function stackGet(t) {
@@ -994,7 +1005,7 @@ module.exports = (function(t, e) {
     },
     723: function(t, e, r) {
       const n = r(841);
-      const a = r(409);
+      const a = r(576);
       const o = r(168);
       const i = r(783);
       t.exports = { spy: n, mock: o, stub: a, dummy: i };
@@ -1463,7 +1474,7 @@ module.exports = (function(t, e) {
     },
     980: function(t, e, r) {
       t = r.nmd(t);
-      var n = r(576);
+      var n = r(549);
       var a = true && e && !e.nodeType && e;
       var o = a && "object" == "object" && t && !t.nodeType && t;
       var i = o && o.exports === a;
