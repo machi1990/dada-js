@@ -1,6 +1,6 @@
 {
   "name": "js-dada",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Test doubles utility library for your testing needs.",
   "main": "index.js",
   "author": "Manyanda Chitimbo <manyanda.chitimbo@gmail.com>",
