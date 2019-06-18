@@ -28,5 +28,9 @@
     "mocks",
     "stubs",
     "spies"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/machi1990/dada-js.git"
+  }
 }
